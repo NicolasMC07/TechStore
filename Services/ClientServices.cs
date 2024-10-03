@@ -8,26 +8,26 @@ using TechStore.Models;
 
 namespace TechStore.Services
 {
-    public class ClientServices : IClientInterface
-    {
-        private readonly AppDbContext _Context;
+    // public class ClientServices : IClientInterface
+    // {
+    //     private readonly AppDbContext _Context;
 
-        public ClientServices(AppDbContext _context)
-        {
-            _Context = _context;
-        }
+    //     public ClientServices(AppDbContext _context)
+    //     {
+    //         _Context = _context;
+    //     }
 
-         Task<IEnumerable<Client>> GetAll()
-         {
+    //      Task<IEnumerable<Client>> GetAll()
+    //      {
 
-         }
-        Task Add (Client client)
-        {
+    //      }
+    //     Task Add (Client client)
+    //     {
 
-        }
-        Task Update (Client client)
-        {
+    //     }
+    //     Task Update (Client client)
+    //     {
             
-        }
-    }
+    //     }
+    // }
 }
