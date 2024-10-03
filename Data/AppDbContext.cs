@@ -25,13 +25,14 @@ namespace TechStore.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            //Seeders
             RoleSeeder.Seed(modelBuilder);
+            UserSeeder.Seed(modelBuilder);
             CategorySeeder.Seed(modelBuilder);
             ClientSeeder.Seed(modelBuilder);
             OrderSeeder.Seed(modelBuilder);
             ProductSeeder.Seed(modelBuilder);
             ProductOrderSeeder.Seed(modelBuilder); 
-            UserSeeder.Seed(modelBuilder);
 
             // Configure the many-to-many relationship for ProductOrder
             modelBuilder.Entity<ProductOrder>()
