@@ -1,6 +1,8 @@
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using TechStore.Data;
+using TechStore.Interfaces;
+using TechStore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +24,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Services
+builder.Services.AddScoped<ICategoryInterface, CategoryServices>();
+builder.Services.AddScoped<IClientInterface, ClientServices>();
+builder.Services.AddScoped<IOrderInterface, OrderServices>();
+builder.Services.AddScoped<IProductInterface, ProductServices>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

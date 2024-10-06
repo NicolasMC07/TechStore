@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace TechStore.Models
 {
     public class Category
-    {   
+    {
+
         [Key] // Define esta propiedad como clave primaria
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Genera el valor automáticamente
         public int Id { get; set; }
@@ -19,5 +20,14 @@ namespace TechStore.Models
 
         [StringLength(500)] // Limita la longitud de la descripción a 500 caracteres
         public string? Description { get; set; }
+        public Category(string name, string description)
+        {
+            Name = name.ToLower().Trim();
+            Description = description.ToLower().Trim();
+        }
+
+        public Category()
+        {
+        }
     }
 }

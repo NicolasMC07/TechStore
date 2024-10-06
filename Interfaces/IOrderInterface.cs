@@ -8,18 +8,14 @@ namespace TechStore.Interfaces
 {
     public interface IOrderInterface
     {
-        Task CreateOrder (Order order);
-        Task UpdateOrder (Order order);
+        Task<Order?> GetById(int id);
 
-        Task DeleteOrder (int id);
-        Task FilterOrderByClient(string client);
-        Task FilterOrderByStatus(string status);
+        Task CreateOrder(Order order);
+        Task UpdateOrder(Order order);
 
-        Task FilterOrderByCreationDate(DateTime dateTime);
-
-
-
-
-
+        Task DeleteOrder(int id);
+        Task<IEnumerable<Order>> FilterOrderByClient(int id);
+        Task<IEnumerable<Order>> FilterOrderByStatus(string status);
+        Task<IEnumerable<Order>> FilterOrderByCreationDate(DateTime dateTime);
     }
 }

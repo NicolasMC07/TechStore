@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace TechStore.Models
 {
     public class Order
-    {   
+    {
+
         [Key] // Define esta propiedad como clave primaria
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Genera el valor automáticamente
         public int Id { get; set; }
@@ -27,5 +28,16 @@ namespace TechStore.Models
         public int IdClient { get; set; }
 
         public ICollection<ProductOrder>? ProductOrders { get; set; } // Colección de ProductOrder
+        public Order(string status, DateTime dateOrder, int quantityProduct,  int idClient)
+        {
+            Status = status;
+            DateOrder = dateOrder;
+            QuantityProduct = quantityProduct;
+            IdClient = idClient;
+        }
+
+        public Order()
+        {
+        }
     }
 }

@@ -7,7 +7,8 @@ using TechStore.Models;
 namespace TechStore.Interfaces
 {
     public interface ICategoryInterface
-    {
+    {   
+        Task<Category?> GetById(int id);
         Task<IEnumerable<Category>> GetAll();
         Task Create(Category category);
 
