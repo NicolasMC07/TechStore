@@ -17,8 +17,8 @@ namespace TechStore.Controllers.V1.ClientControllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateClient(int id, ClientDTO client)
-        {
+        public async Task<IActionResult> Update(int id, ClientDTO client)
+        {   
             // if (!ModelState.IsValid)
             // {
             //     return BadRequest(ModelState);
@@ -27,22 +27,32 @@ namespace TechStore.Controllers.V1.ClientControllers
             // if (checkVehicle == false)
             // {
             //     return NotFound();
-            // }    
+            // }  
 
-            var clientId = await _clientInterface.GetById(id);
-
-            if (client == null)
+            // Verifica si el modelo es válido
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
-            client.Name = client.Name;
-            client.Address = client.Address;
-            client.PhoneNumber = client.PhoneNumber;
-            client.Email = client.Email;
+            // Verifica si la categoría existe
+            var existClient = await _clientInterface.GetById(id);
+            if (existClient == null)
+            {
+                return NotFound(); // Retorna 404 si la categoría no existe
+            }
 
-            await _clientInterface.Update(clientId);
-            return NoContent();
+            // Actualiza las propiedades de la categoría existente
+            existClient.Name = client.Name;
+            existClient.Address = client.Address;
+            existClient.PhoneNumber = client.PhoneNumber;
+            existClient.Email = client.Email;
+
+
+            // Realiza la actualización en la base de datos
+            await _clientInterface.Update(existClient);
+
+            return NoContent(); // Retorna 204 No Content al finalizar correctamente
         }
     }
 }

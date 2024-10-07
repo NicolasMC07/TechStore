@@ -15,9 +15,9 @@ namespace TechStore.Controllers.V1.ProductControllers
         public ProductUpdateController(IProductInterface productInterface) : base(productInterface)
         {
         }
-        
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateClient(int id, PrductDTO product)
+        public async Task<IActionResult> Update(int id, PrductDTO product)
         {
             // if (!ModelState.IsValid)
             // {
@@ -27,24 +27,32 @@ namespace TechStore.Controllers.V1.ProductControllers
             // if (checkVehicle == false)
             // {
             //     return NotFound();
-            // }    
+            // }  
 
-            var productId = await _productInterface.FilterProductById(id);
-
-            if (product == null)
+            // Verifica si el modelo es válido
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
-            product.Name = product.Name;
-            product.Price = product.Price;
-            product.Description = product.Description;
-            product.Quantity = product.Quantity;
-            product.IdCategory = product.IdCategory;
+            // Verifica si la categoría existe
+            var existProduct = await _productInterface.FilterProductById(id);
+            if (existProduct == null)
+            {
+                return NotFound(); // Retorna 404 si la categoría no existe
+            }
+
+            // Actualiza las propiedades de la categoría existente
+            existProduct.Name = product.Name;
+            existProduct.Price = product.Price;
+            existProduct.Description = product.Description;
+            existProduct.IdCategory = product.IdCategory;
 
 
-            await _productInterface.UpdateProduct(productId);
-            return NoContent();
+            // Realiza la actualización en la base de datos
+            await _productInterface.UpdateProduct(existProduct);
+
+            return NoContent(); // Retorna 204 No Content al finalizar correctamente
         }
     }
 }

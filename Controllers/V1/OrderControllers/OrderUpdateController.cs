@@ -17,7 +17,7 @@ namespace TechStore.Controllers.V1.OrderControllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateClient(int id, OrderDTO order)
+        public async Task<IActionResult> Update(int id, OrderDTO order)
         {
             // if (!ModelState.IsValid)
             // {
@@ -27,22 +27,32 @@ namespace TechStore.Controllers.V1.OrderControllers
             // if (checkVehicle == false)
             // {
             //     return NotFound();
-            // }    
+            // }  
 
-            var orderId = await _orderInterface.GetById(id);
-
-            if (order == null)
+            // Verifica si el modelo es válido
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
-            order.Status = order.Status;
-            order.DateOrder = order.DateOrder;
-            order.QuantityProduct = order.QuantityProduct;
-            order.IdClient = order.IdClient;
+            // Verifica si la categoría existe
+            var existOrder = await _orderInterface.GetById(id);
+            if (existOrder == null)
+            {
+                return NotFound(); // Retorna 404 si la categoría no existe
+            }
 
-            await _orderInterface.UpdateOrder(orderId);
-            return NoContent();
+            // Actualiza las propiedades de la categoría existente
+            existOrder.Status = order.Status;
+            existOrder.DateOrder = order.DateOrder;
+            existOrder.QuantityProduct = order.QuantityProduct;
+            existOrder.IdClient = order.IdClient;
+
+
+            // Realiza la actualización en la base de datos
+            await _orderInterface.UpdateOrder(existOrder);
+
+            return NoContent(); // Retorna 204 No Content al finalizar correctamente
         }
     }
 }

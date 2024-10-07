@@ -18,7 +18,7 @@ namespace TechStore.Controllers.V1.CategoryControllers
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, CategoryDTO category)
-        {
+        {   
             // if (!ModelState.IsValid)
             // {
             //     return BadRequest(ModelState);
@@ -27,20 +27,29 @@ namespace TechStore.Controllers.V1.CategoryControllers
             // if (checkVehicle == false)
             // {
             //     return NotFound();
-            // }    
+            // }  
 
-            var categoryId = await _categoryInterface.GetById(id);
-
-            if (category == null)
+            // Verifica si el modelo es válido
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
-            category.Name = category.Name;
-            category.Description = category.Description;
+            // Verifica si la categoría existe
+            var existingCategory = await _categoryInterface.GetById(id);
+            if (existingCategory == null)
+            {
+                return NotFound(); // Retorna 404 si la categoría no existe
+            }
 
-            await _categoryInterface.Update(categoryId);
-            return NoContent();
+            // Actualiza las propiedades de la categoría existente
+            existingCategory.Name = category.Name;
+            existingCategory.Description = category.Description;
+
+            // Realiza la actualización en la base de datos
+            await _categoryInterface.Update(existingCategory);
+
+            return NoContent(); // Retorna 204 No Content al finalizar correctamente
         }
     }
 }

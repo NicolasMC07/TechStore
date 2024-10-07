@@ -16,6 +16,7 @@ namespace TechStore.Controllers.V1.ProductControllers
         {
         }
 
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetAll()
         {
             var product = await _productInterface.GetProducts();
